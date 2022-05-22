@@ -57,3 +57,7 @@ scraping api**
 
 - Sample project is placed in *sample_project* directory :)
 - Main project is in the *src* directory
+
+## Sources:
+- https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775
+- https://www.tableau.com/learn/articles/time-series-analysis#:~:text=What%20is%20time%20series%20analysis,data%20points%20intermittently%20or%20randomly.
