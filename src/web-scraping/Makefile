@@ -14,4 +14,4 @@ run:
 	./main
 
 clean:
-	rm -f main curl.o
+	rm -f main

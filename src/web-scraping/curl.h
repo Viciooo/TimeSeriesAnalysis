@@ -9,7 +9,7 @@
 
 class Curl {
 public:
-    Curl() : curlPtr(curl_easy_init()), res() {}
+    Curl() : curlPtr(curl_easy_init()), curlRes(), HTMLTable() {}
 
     Curl(const Curl &curl) = default; // trivial copy constructor
 
@@ -27,23 +27,14 @@ public:
 
     Curl &operator=(const Curl &other);
 
-    [[nodiscard]] void *getCurlPtr() const {
-        return curlPtr;
-    }
+    void getHTMLTable();
 
-    [[nodiscard]] CURLcode getRes() const {
-        return res;
-    }
-
-    void setRes(CURLcode res_) {
-        res = res_;
-    }
+    friend std::ostream &operator<<(std::ostream &os, const Curl &curl);
 
 private:
     CURL *curlPtr;
-    CURLcode res;
+    CURLcode curlRes;
+    std::string HTMLTable;
 };
-
-void getHTMLTable();
 
 #endif //TIMESERIESANALYSIS_CURL_H
