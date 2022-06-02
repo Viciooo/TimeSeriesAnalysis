@@ -6,7 +6,7 @@ OPT = -O3
 .PHONY: all
 all: main run clean
 
-main: curl.cpp
+main: curl.cpp csv_writer.cpp
 	@$(CXX) $(CXXFLAGS) $(OPT) $^ $@.cpp -o $@ $(LDFLAGS)
 
 .PHONY: run

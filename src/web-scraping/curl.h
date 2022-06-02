@@ -9,7 +9,7 @@
 
 class Curl {
 public:
-    Curl() : curlPtr(curl_easy_init()), curlRes(), HTMLTable() {}
+    Curl() : curlPtr(curl_easy_init()), curlRes() {}
 
     // to get Weffc++ off my back :)
     Curl(const Curl &curl) = delete;
@@ -27,14 +27,11 @@ public:
      */
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
-    void getHTMLTable();
-
-    friend std::ostream &operator<<(std::ostream &os, const Curl &curl);
+    std::string getHTMLTable();
 
 private:
     CURL *curlPtr;
     CURLcode curlRes;
-    std::string HTMLTable;
 };
 
 #endif //TIMESERIESANALYSIS_CURL_H

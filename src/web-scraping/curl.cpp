@@ -5,10 +5,11 @@ size_t Curl::WriteCallback(void *contents, size_t size, size_t nmemb, void *user
     return size * nmemb;
 }
 
-void Curl::getHTMLTable() {
+std::string Curl::getHTMLTable() {
+    std::string HTMLTable;
     if (curlPtr) {
         // TODO: link from the user input
-        curl_easy_setopt(curlPtr, CURLOPT_URL, "https://finance.yahoo.com/quote/BTC-USD/history?p=BTC-USD");
+        curl_easy_setopt(curlPtr, CURLOPT_URL, "https://finance.yahoo.com/quote/YM%3DF/history?p=YM%3DF");
         /* No redirection follow needed */
         curl_easy_setopt(curlPtr, CURLOPT_WRITEFUNCTION, Curl::WriteCallback);
         curl_easy_setopt(curlPtr, CURLOPT_WRITEDATA, &HTMLTable);
@@ -20,15 +21,14 @@ void Curl::getHTMLTable() {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(curlRes));
         }
 
-        /* Extract <table> tag content */
-        std::size_t tablePos = HTMLTable.find("<table");
-        HTMLTable = HTMLTable.substr(tablePos);
-        tablePos = HTMLTable.find("</table>");
-        HTMLTable = HTMLTable.substr(0, tablePos + strlen("</table>"));
+        /*
+         * Extract table content
+         * Normally it would end with </table>, but after <tbody> we have footers which are useless for us
+         */
+        std::size_t tableStartPos = HTMLTable.find("<table");
+        std::size_t tableEndPos = HTMLTable.find("</tbody>", tableStartPos);
+        HTMLTable = HTMLTable.substr(tableStartPos, tableEndPos - tableStartPos + 1);
     }
-}
-
-std::ostream &operator<<(std::ostream &os, const Curl &curl) {
-    os << "HTMLTable: " << curl.HTMLTable;
-    return os;
+    std::cout << HTMLTable << std::endl;
+    return HTMLTable;
 }

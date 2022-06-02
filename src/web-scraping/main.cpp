@@ -1,10 +1,11 @@
 #include "curl.h"
+#include "csv_writer.h"
 
 int main() {
     Curl curl;
-
-    curl.getHTMLTable();
-    std::cout << curl << std::endl;
-
+    CSVWriter csvWriter(curl.getHTMLTable());
+    csvWriter.extractHeader();
+    csvWriter.extractData();
+    csvWriter.writeToCSV();
     return 0;
 }
