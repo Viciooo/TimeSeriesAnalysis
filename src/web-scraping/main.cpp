@@ -10,7 +10,9 @@ int main() {
     CSVWriter csvWriter(curl.getHTMLTable());
     csvWriter.extractHeader();
     csvWriter.extractData();
-    csvWriter.writeToCSV(curl.getDataSourceIdx());
+    std::string fileName = csvWriter.writeToCSV(curl.getDataSourceIdx());
+
+    std::cout << "\nYour file is ready! File name: " << fileName << "\n";
 
     return 0;
 }

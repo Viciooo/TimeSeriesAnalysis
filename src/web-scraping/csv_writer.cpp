@@ -71,7 +71,7 @@ std::string CSVWriter::formatDate() {
     return csvDate;
 }
 
-void CSVWriter::writeToCSV(std::size_t dataSourceIdx) {
+std::string CSVWriter::writeToCSV(std::size_t dataSourceIdx) {
     std::string fileName("data");
     fileName.append(std::to_string(dataSourceIdx));
     fileName.append(".csv");
@@ -83,4 +83,6 @@ void CSVWriter::writeToCSV(std::size_t dataSourceIdx) {
     } else {
         throw std::runtime_error("Unable to open the file.");
     }
+
+    return fileName;
 }

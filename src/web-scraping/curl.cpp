@@ -6,12 +6,18 @@ size_t Curl::WriteCallback(void *contents, size_t size, size_t nmemb, void *user
 }
 
 void Curl::inputDataSource() {
-    std::cout << "Pick one of the following data source by entering one of the numbers below:\n";
-    for (std::size_t i = 0; i < NumOfDataSources; ++i) {
-        std::cout << "(" << i << "): " << AvailableDataSources[i] << "\n";
+    while (true) {
+        std::cout << "Pick one of the following data source by entering one of the numbers below:\n";
+        for (std::size_t i = 0; i < NumOfDataSources; ++i) {
+            std::cout << "(" << i << "): " << AvailableDataSources[i] << "\n";
+        }
+        std::cin >> dataSourceIdx;
+        if (dataSourceIdx >= NumOfDataSources) {
+            std::cout << "Data source index out of range. Pick again.\n";
+        } else {
+            break;
+        }
     }
-    std::cin >> dataSourceIdx;
-    if (dataSourceIdx >= NumOfDataSources) throw std::out_of_range("Data source index out of range.");
 }
 
 std::string Curl::getHTMLTable() {

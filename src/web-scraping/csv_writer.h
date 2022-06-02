@@ -18,7 +18,8 @@ public:
     // using copy elision
     std::string formatDate();
 
-    void writeToCSV(std::size_t dataSourceIdx);
+    // ditto
+    std::string writeToCSV(std::size_t dataSourceIdx);
 
 private:
     std::string HTMLTable;
