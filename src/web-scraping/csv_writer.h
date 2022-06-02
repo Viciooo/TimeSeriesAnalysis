@@ -18,7 +18,7 @@ public:
     // using copy elision
     std::string formatDate();
 
-    void writeToCSV();
+    void writeToCSV(std::size_t dataSourceIdx);
 
 private:
     std::string HTMLTable;
@@ -27,7 +27,5 @@ private:
     int numOfCols;
     std::string data;
 };
-
-
 
 #endif //TIMESERIESANALYSIS_CSV_WRITER_H

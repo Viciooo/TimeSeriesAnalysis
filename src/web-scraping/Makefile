@@ -3,8 +3,8 @@ CXXFLAGS = -std=c++20 -Wall -Wextra -pedantic -Werror -Weffc++ -I/opt/curl/inclu
 LDFLAGS = -L/opt/curl/lib -lcurl
 OPT = -O3
 
-.PHONY: all
-all: main run clean
+.PHONY: compile
+compile: main
 
 main: curl.cpp csv_writer.cpp
 	@$(CXX) $(CXXFLAGS) $(OPT) $^ $@.cpp -o $@ $(LDFLAGS)

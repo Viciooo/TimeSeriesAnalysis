@@ -5,11 +5,19 @@ size_t Curl::WriteCallback(void *contents, size_t size, size_t nmemb, void *user
     return size * nmemb;
 }
 
+void Curl::inputDataSource() {
+    std::cout << "Pick one of the following data source by entering one of the numbers below:\n";
+    for (std::size_t i = 0; i < NumOfDataSources; ++i) {
+        std::cout << "(" << i << "): " << AvailableDataSources[i] << "\n";
+    }
+    std::cin >> dataSourceIdx;
+    if (dataSourceIdx >= NumOfDataSources) throw std::out_of_range("Data source index out of range.");
+}
+
 std::string Curl::getHTMLTable() {
     std::string HTMLTable;
     if (curlPtr) {
-        // TODO: link from the user input
-        curl_easy_setopt(curlPtr, CURLOPT_URL, "https://finance.yahoo.com/quote/YM%3DF/history?p=YM%3DF");
+        curl_easy_setopt(curlPtr, CURLOPT_URL, AvailableDataSources[dataSourceIdx]);
         /* No redirection follow needed */
         curl_easy_setopt(curlPtr, CURLOPT_WRITEFUNCTION, Curl::WriteCallback);
         curl_easy_setopt(curlPtr, CURLOPT_WRITEDATA, &HTMLTable);
@@ -29,6 +37,5 @@ std::string Curl::getHTMLTable() {
         std::size_t tableEndPos = HTMLTable.find("</tbody>", tableStartPos);
         HTMLTable = HTMLTable.substr(tableStartPos, tableEndPos - tableStartPos + 1);
     }
-    std::cout << HTMLTable << std::endl;
     return HTMLTable;
 }

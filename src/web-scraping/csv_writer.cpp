@@ -42,7 +42,6 @@ void CSVWriter::extractData() {
     }
 
     data.pop_back();
-    std::cout << data << std::endl;
 }
 
 std::string CSVWriter::formatDate() {
@@ -64,9 +63,7 @@ std::string CSVWriter::formatDate() {
     else if (strcmp(month, "Oct") == 0) csvDate.append("-10-");
     else if (strcmp(month, "Nov") == 0) csvDate.append("-11-");
     else if (strcmp(month, "Dec") == 0) csvDate.append("-12-");
-    else
-        throw std::invalid_argument(
-                "Date on the website must be a three-letter abbreviation in order to be formatted properly.");
+    else throw std::invalid_argument("Date on the website must be a three-letter abbreviation in order to be formatted properly.");
 
     // day
     csvDate.append(HTMLTable.substr(currPos + 4, 2));
@@ -74,11 +71,16 @@ std::string CSVWriter::formatDate() {
     return csvDate;
 }
 
-void CSVWriter::writeToCSV() {
-    std::ofstream csvFile("data.csv");
+void CSVWriter::writeToCSV(std::size_t dataSourceIdx) {
+    std::string fileName("data");
+    fileName.append(std::to_string(dataSourceIdx));
+    fileName.append(".csv");
+    std::ofstream csvFile(fileName);
     if (csvFile.is_open()) {
         csvFile << header;
         csvFile << data;
         csvFile.close();
-    } else std::cout << "Unable to open file";
+    } else {
+        throw std::runtime_error("Unable to open the file.");
+    }
 }
