@@ -11,7 +11,9 @@ class Curl {
 public:
     Curl() : curlPtr(curl_easy_init()), curlRes(), HTMLTable() {}
 
-    Curl(const Curl &curl) = default; // trivial copy constructor
+    // to get Weffc++ off my back :)
+    Curl(const Curl &curl) = delete;
+    Curl &operator=(const Curl &other) = delete;
 
     virtual ~Curl() {
         /* always cleanup */
@@ -24,8 +26,6 @@ public:
      * Source: https://curl.se/libcurl/c/libcurl-tutorial.html
      */
     static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
-
-    Curl &operator=(const Curl &other);
 
     void getHTMLTable();
 

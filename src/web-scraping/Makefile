@@ -3,15 +3,16 @@ CXXFLAGS = -std=c++20 -Wall -Wextra -pedantic -Werror -Weffc++ -I/opt/curl/inclu
 LDFLAGS = -L/opt/curl/lib -lcurl
 OPT = -O3
 
-.PHONY: all, compile, run, clean
+.PHONY: all
+all: main run clean
 
-all: compile run clean
+main: curl.cpp
+	@$(CXX) $(CXXFLAGS) $(OPT) $^ $@.cpp -o $@ $(LDFLAGS)
 
-compile: curl.cpp
-	$(CXX) $(CXXFLAGS) $(OPT) $^ main.cpp -o main $(LDFLAGS)
-
+.PHONY: run
 run:
-	./main
+	@./main
 
+.PHONY: clean
 clean:
-	rm -f main
+	@rm -f main
