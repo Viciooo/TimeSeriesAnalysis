@@ -43,6 +43,14 @@ make clean
 - wait for a loooooong time
 - Now your python scientific enviroment is ready - type `jupyter notebook` to start your data-science journey
 
+## How to test it?
+- Run the cpp webscrapper and generate the datasets
+- run jupyter notebook and open "analysis_of_time_series_from_web_scraping.ipynb"
+- experiment with it - swap the source files in:
+`data = pd.read_csv('../web-scraping/data0.csv',index_col='Date',parse_dates=True)`
+selecting for example data1.csv etc.
+- have fun
+
 ## Sources:
 - https://towardsdatascience.com/the-complete-guide-to-time-series-analysis-and-forecasting-70d476bfe775
 - https://www.tableau.com/learn/articles/time-series-analysis#:~:text=What%20is%20time%20series%20analysis,data%20points%20intermittently%20or%20randomly.
