@@ -5,9 +5,11 @@ void CSVWriter::extractHeader() {
     std::size_t headerEndPos = HTMLTable.find("</thead>", currPos);
     while (currPos <= headerEndPos) {
         currPos += 6; // len("<span>") == 6
+        header.push_back('"');
         while (HTMLTable[currPos] != '<') {
             header.push_back(HTMLTable[currPos++]);
         }
+        header.push_back('"');
         header.push_back(',');
         ++numOfCols;
         currPos = HTMLTable.find("<span>", currPos);
@@ -48,7 +50,8 @@ std::string CSVWriter::formatDate() {
     // First three letters - an abbreviation of a month
     // Then we have the day after a space, then a comma and space followed by the year
     char month[4] = {HTMLTable[currPos], HTMLTable[currPos + 1], HTMLTable[currPos + 2], '\0'};
-    std::string csvDate = HTMLTable.substr(currPos + 8, 4); // year
+    std::string csvDate = "\"";
+    csvDate.append(HTMLTable.substr(currPos + 8, 4)); // year
 
     // month
     if (strcmp(month, "Jan") == 0) csvDate.append("-01-");
@@ -67,6 +70,7 @@ std::string CSVWriter::formatDate() {
 
     // day
     csvDate.append(HTMLTable.substr(currPos + 4, 2));
+    csvDate.push_back('"');
 
     return csvDate;
 }
