@@ -40,7 +40,7 @@ public:
         return dataSourceIdx;
     }
 
-    void inputDataSource();
+    void inputDataSource(int argc, char *argv[]);
 
     std::string getHTMLTable();
 

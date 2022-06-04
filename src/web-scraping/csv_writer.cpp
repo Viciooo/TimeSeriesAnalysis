@@ -1,8 +1,9 @@
 #include "csv_writer.h"
 
 void CSVWriter::extractHeader() {
-    currPos = HTMLTable.find("<span>", currPos);
-    std::size_t headerEndPos = HTMLTable.find("</thead>", currPos);
+    currPos = HTMLTable.find("<table"); // the beginning of the table
+    currPos = HTMLTable.find("<span>", currPos); // the first element in the header
+    std::size_t headerEndPos = HTMLTable.find("</thead>", currPos); // the end of the header
     while (currPos <= headerEndPos) {
         currPos += 6; // len("<span>") == 6
         header.push_back('"');
@@ -15,13 +16,20 @@ void CSVWriter::extractHeader() {
         currPos = HTMLTable.find("<span>", currPos);
     }
     header.back() = '\n'; // replace the last comma with a new line
+    currPos = headerEndPos;
 }
 
 void CSVWriter::extractData() {
-    while (currPos < HTMLTable.length()) {
+    std::size_t tableEndPos = HTMLTable.find("</tbody>", currPos);
+    currPos = HTMLTable.find("<span>", currPos);
+    while (currPos < tableEndPos) {
         // Date is in the wrong format, so we need to format it first
         currPos += 6;
-        data.append(formatDate());
+        try {
+            data.append(formatDate());
+        } catch (const std::invalid_argument &exception) {
+            std::cout << exception.what() << "\n";
+        }
         data.push_back(',');
         currPos = HTMLTable.find("<span>", currPos);
 
@@ -32,7 +40,8 @@ void CSVWriter::extractData() {
                 data.append("null");
             }
             while (HTMLTable[currPos] != '<') {
-                if (HTMLTable[currPos] != ',') { // unfortunately a comma is used to separate digits, so we need to get rid of it
+                if (HTMLTable[currPos] !=
+                    ',') { // unfortunately a comma is used to separate digits, so we need to get rid of it for the sake of the CSV format
                     data.push_back(HTMLTable[currPos]);
                 }
                 ++currPos;
@@ -66,7 +75,9 @@ std::string CSVWriter::formatDate() {
     else if (strcmp(month, "Oct") == 0) csvDate.append("-10-");
     else if (strcmp(month, "Nov") == 0) csvDate.append("-11-");
     else if (strcmp(month, "Dec") == 0) csvDate.append("-12-");
-    else throw std::invalid_argument("Date on the website must be a three-letter abbreviation in order to be formatted properly.");
+    else
+        throw std::invalid_argument(
+                "Date on the website must be a three-letter abbreviation in order to be formatted properly. Your file may be corrupted.");
 
     // day
     csvDate.append(HTMLTable.substr(currPos + 4, 2));

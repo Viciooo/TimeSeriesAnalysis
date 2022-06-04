@@ -1,16 +1,34 @@
 #include "curl.h"
 #include "csv_writer.h"
 
-int main() {
-    std::cout << "Welcome to the web scraping program.\nFollow the instructions to download a desired CSV file.\n\n";
-
+int main(int argc, char *argv[]) {
     Curl curl;
-    curl.inputDataSource();
+    try {
+        curl.inputDataSource(argc, argv);
+    } catch (const std::logic_error &exception) {
+        std::cout << exception.what() << "\n";
+        exit(EXIT_FAILURE);
+    }
 
-    CSVWriter csvWriter(curl.getHTMLTable());
+    std::cout << "The file is being prepared. Please wait...\n";
+
+    CSVWriter csvWriter;
+    try {
+        csvWriter.setHTMLTable(curl.getHTMLTable());
+    } catch (const std::runtime_error &exception) {
+        std::cout << exception.what() << "\n";
+        exit(EXIT_FAILURE);
+    }
+
     csvWriter.extractHeader();
     csvWriter.extractData();
-    std::string fileName = csvWriter.writeToCSV(curl.getDataSourceIdx());
+    std::string fileName;
+    try {
+        fileName = csvWriter.writeToCSV(curl.getDataSourceIdx());
+    } catch (const std::runtime_error &exception) {
+        std::cout << exception.what() << "\n";
+        exit(EXIT_FAILURE);
+    }
 
     std::cout << "\nYour file is ready! File name: " << fileName << "\n";
 
