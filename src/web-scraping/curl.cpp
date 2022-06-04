@@ -49,13 +49,7 @@ std::string Curl::getHTMLTable() {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(curlRes));
         }
 
-        /*
-         * Extract table content
-         * Normally it would end with </table>, but after <tbody> we have footers which are useless for us
-         */
-        std::size_t tableStartPos = HTMLTable.find("<table");
-        std::size_t tableEndPos = HTMLTable.find("</tbody>", tableStartPos);
-        HTMLTable = HTMLTable.substr(tableStartPos, tableEndPos - tableStartPos + 1);
+        return HTMLTable;
     }
-    return HTMLTable;
+    throw std::runtime_error("Can't access the selected data source.");
 }

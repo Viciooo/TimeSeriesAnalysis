@@ -9,7 +9,11 @@
 
 class CSVWriter {
 public:
-    explicit CSVWriter(std::string htmlTable) : HTMLTable(std::move(htmlTable)), currPos(0), header(), numOfCols(0), data() {}
+    CSVWriter() = default;
+
+    void setHTMLTable(std::string htmlTable) {
+        HTMLTable = std::move(htmlTable);
+    }
 
     void extractHeader();
 
@@ -22,11 +26,11 @@ public:
     std::string writeToCSV(std::size_t dataSourceIdx);
 
 private:
-    std::string HTMLTable;
-    std::size_t currPos;
-    std::string header;
-    int numOfCols;
-    std::string data;
+    std::string HTMLTable{};
+    std::size_t currPos{};
+    std::string header{};
+    int numOfCols{};
+    std::string data{};
 };
 
 #endif //TIMESERIESANALYSIS_CSV_WRITER_H

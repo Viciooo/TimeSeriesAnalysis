@@ -37,7 +37,7 @@ make clean
 #### How to setup your enviroment?
 - Go to [this link](https://www.anaconda.com/products/distribution) and download Anaconda scientific distribution of Python3
 - Install it
-- *Anaconda Prompt* should be installed - lunch it
+- *Anaconda Prompt* should be installed - launch it
 - change your location to where the project with .yml file is
 - type `conda env create -f tsa_course_env.yml` and press Enter
 - wait for a loooooong time
