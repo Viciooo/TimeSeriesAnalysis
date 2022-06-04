@@ -11,7 +11,7 @@ main: curl.cpp csv_writer.cpp
 
 .PHONY: run
 run:
-	@./main
+	@./main help
 
 .PHONY: clean
 clean:

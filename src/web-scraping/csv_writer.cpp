@@ -21,7 +21,11 @@ void CSVWriter::extractData() {
     while (currPos < HTMLTable.length()) {
         // Date is in the wrong format, so we need to format it first
         currPos += 6;
-        data.append(formatDate());
+        try {
+            data.append(formatDate());
+        } catch (const std::invalid_argument &exception) {
+            std::cout << exception.what() << "\n";
+        }
         data.push_back(',');
         currPos = HTMLTable.find("<span>", currPos);
 
@@ -32,7 +36,7 @@ void CSVWriter::extractData() {
                 data.append("null");
             }
             while (HTMLTable[currPos] != '<') {
-                if (HTMLTable[currPos] != ',') { // unfortunately a comma is used to separate digits, so we need to get rid of it
+                if (HTMLTable[currPos] != ',') { // unfortunately a comma is used to separate digits, so we need to get rid of it for the sake of the CSV format
                     data.push_back(HTMLTable[currPos]);
                 }
                 ++currPos;
